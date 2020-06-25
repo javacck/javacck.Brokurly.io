@@ -1,0 +1,16 @@
+package com.goupang.www.controller.home;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+@Controller
+public class SellerHomeController {
+
+	@GetMapping("/sellerHome")
+	public String home()throws Exception{
+		return "sellerHome";
+	}
+	
+}

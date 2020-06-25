@@ -1,0 +1,161 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<body>
+<script src="${pageContext.request.contextPath}/assets/js/jquery-3.2.1.min.js"></script>
+       
+	<!--================Top Header Area =================-->
+	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+	<div class="header_top_area" >
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="top_header_left">
+						<!-- 헤더 탑 왼쪽 빈공간 -->
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="top_header_middle">
+
+						<a href="${pageContext.request.contextPath}/"><h1 style="margin: 20px;  color: #43a047; font-family: 'Pacifico', cursive; font-size: 60px;">BroKurly</h1></a>
+						
+						<div class="input-group" style="margin: 20px;">
+							<input type="text" class="form-control" placeholder="Search"
+								aria-label="Search" id="search" >
+								<span class="input-group-btn">
+								<button class="btn btn-secondary" type="button" onclick="search()">
+									<i class="icon-magnifier"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3" style="color: white; ">
+					<div class="top_right_header" >
+						<ul class="top_right" >
+							<c:if test="${empty authInfo}">
+								<a href="${pageContext.request.contextPath}/member/step1" style="color: black; ">회원 가입|</a>
+								<a href="${pageContext.request.contextPath}/member/login" style="color: black; ">로그인</a>
+							</c:if>
+							<c:if test="${! empty authInfo}">
+								<c:if test="${authInfo.grant > 1}">
+								<a href="${pageContext.request.contextPath}/sellerHome" style="color: black; ">판매자 페이지|</a>
+								</c:if>
+								<c:if test="${authInfo.grant > 2}">
+								<a href="${pageContext.request.contextPath}/admin" style="color: black; ">관리자 페이지|</a>
+								</c:if>
+								
+								<a href="#" style="color: black;" onclick="chatBot()">채팅봇상담|</a>
+								<a href="${pageContext.request.contextPath}/member/myPage" style="color: black;">마이페이지|</a>
+								<a href="${pageContext.request.contextPath}/cart/cartList" style="color: black;">장바구니|</a>
+								<a href="${pageContext.request.contextPath}/member/logout" style="color: black;">로그아웃</a>
+								<p  style="color: black;"><b style="font-size: 1.1em;">${authInfo.name}</b>님,환영합니다.</p>
+							</c:if>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+		    var autocomplete_text = ["자동완성기능","Autocomplete","자동차","자기부상열차"];
+		    $("#search").autocomplete({
+		        source : function( request, response ) {
+		             $.ajax({
+		                    type: 'post',
+		                    url: "${pageContext.request.contextPath}/search/searchJson?keyword="+$("#search").val(),
+		                    dataType: "json",
+		                    data: { value : request.term },
+		                    success: function(data) {
+		                    	console.log(data);
+		                    	response(
+	                    			$.map(data,function(item){
+                    						return {label: item, value: item}
+                    					}
+	                    			)
+                    			)
+	                    	}
+		               });   
+
+		            },
+		        minLength: 2
+		    }); 
+		                  
+		    $("#search").keydown(function() {
+		 	   var content = $(this).val();
+		 	   if(event.keyCode == 13){
+		 		   search();
+		 		 }
+		    });
+		});
+		function search(){
+			var url = "${pageContext.request.contextPath}/search/search?keyword="+$("#search").val();
+			location.href=url;
+		}
+		function chatBot(){
+			var name = "${authInfo.name}";
+			window.open('http://192.168.0.123:3000/?name='+name+' 고객님', '_blank','width = 500, height = 500, top = 100, left = 200, location = no');
+			/* window.open('http://localhost:3000/?name='+name+' 고객님', '_blank','width = 500, height = 500, top = 100, left = 200, location = no'); */
+		}
+
+/* 
+ $( function() {
+     $("#search").keydown(function() {
+    	   var content = $(this).val();
+    	   if(event.keyCode == 13){
+    		   search();
+    		 }
+       });
+	 
+	    var availableTags = [
+	      "ActionScript",
+	      "AppleScript",
+	      "Asp",
+	      "BASIC",
+	      "C",
+	      "C++",
+	      "Clojure",
+	      "COBOL",
+	      "ColdFusion",
+	      "Erlang",
+	      "Fortran",
+	      "Groovy",
+	      "Haskell",
+	      "Java",
+	      "JavaScript",
+	      "Lisp",
+	      "Perl",
+	      "PHP",
+	      "Python",
+	      "Ruby",
+	      "Scala",
+	      "Scheme"
+	    ];
+	    $( "#search" ).autocomplete({
+	      source: availableTags
+	    });
+	     */
+
+</script>
+
+	<!--================End Top Header Area =================-->
+	
+	
+	<!-- 
+
+
+<div class="ui-widget">
+  <label for="tags">검색: </label>
+  <input id="tags" >
+</div>
+ 
+
+    
+</body>
+</html>
+	
+	
+	 -->

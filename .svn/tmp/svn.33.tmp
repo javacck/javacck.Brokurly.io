@@ -1,0 +1,114 @@
+package com.goupang.www.controller.review;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.goupang.www.dto.member.AuthInfo;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.dto.review.ReviewRequest;
+import com.goupang.www.exception.review.WrongOrderProductsNoException;
+import com.goupang.www.exception.review.WrongProductNoException;
+import com.goupang.www.service.product.ProductListService;
+import com.goupang.www.service.review.ReviewFormService;
+
+@Controller
+public class reviewFormController {
+
+    @Autowired
+    private ReviewFormService reviewFormService;
+    @Autowired
+    private ProductListService productListService;
+
+    @GetMapping("/review/reviewForm")
+    public String form(Model model, HttpServletRequest req, @RequestParam int productNo) throws Exception {
+        ReviewRequest reviewReq = new ReviewRequest();
+        int orderStatus = reviewReq.getOrderStatus();
+        AuthInfo auth = (AuthInfo) req.getSession().getAttribute("authInfo");
+        if (auth == null || auth.getGrant() < 1 /* || orderStatus != 3 */) {
+            return "redirect:/member/noGrant";
+        }
+        reviewReq.setMemberNo(auth.getId().intValue());
+        reviewReq.setMemberName(auth.getName());
+        reviewReq.setProductName(productListService.selectProductByProductNo(productNo).get(0).getProductName());
+//		if(memberNo != auth.getId().intValue()) {
+//			return "redirect:/member/noGrant";
+//		}if(auth.getGrant() < 2) {
+//			return "redirect:/member/noGrant";
+//		}
+        int orderProductsNo = 1; // 나중에 바꿔야 됨
+        // int orderProductsNo = reviewReq.getOrderProductsNo();
+        String productOption = reviewReq.getProductOption();
+
+        reviewReq.setOrderProductsNo(orderProductsNo);
+        reviewReq.setOrderStatus(orderStatus);
+        reviewReq.setProductNo(productNo);
+        reviewReq.setProductOption(productOption);
+
+        model.addAttribute("reviewRequest", reviewReq);
+        return "/review/reviewForm";
+    }
+
+    @PostMapping("/review/reviewForm")
+    public String submit(ReviewRequest reviewReq, Errors errors, @ModelAttribute("product") Product product,
+            @ModelAttribute Review review, Model model, @RequestParam int productNo) {
+
+        try {
+            Product product2;
+            product2 = reviewFormService.selectReviewRateByProductNo(productNo);
+
+            reviewRateCal(reviewReq, product2);
+
+            reviewFormService.insertReviewList(reviewReq);
+
+            String con = reviewReq.getReviewContent();
+            String sum = reviewReq.getReviewSummary();
+            int rate = reviewReq.getReviewRate();
+
+            if (rate >= 5)
+                reviewReq.setReviewRate(5);
+            else if (con == null && sum == null)
+                reviewFormService.insertReviewRateList(reviewReq);
+            else if (con == null && sum != null)
+                reviewFormService.insertReviewRateSummaryList(reviewReq);
+            else if (con != null && sum == null)
+                reviewFormService.insertReviewRateContentList(reviewReq);
+            else
+                reviewFormService.insertReviewList(reviewReq);
+        } catch (WrongProductNoException | WrongOrderProductsNoException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/review/reviewList?productNo=" + productNo;
+    }
+
+    public void reviewRateCal(ReviewRequest reviewReq, @ModelAttribute("product") Product product) throws Exception {
+
+        int productNo = product.getProductNo();
+
+        Product reviewRateByProductNo = reviewFormService.selectReviewRateByProductNo(productNo);
+        int reviewProductNoCount = reviewFormService.selectReviewCountByProductNo(productNo);
+        int initial = Integer.parseInt(reviewRateByProductNo.getProductAvgRate());
+        if (initial == 0) {
+            String newReviewRate1 = Integer.toString(reviewReq.getReviewRate());
+            reviewFormService.updateProductAvgRate(productNo, newReviewRate1);
+        } else {
+            int newReviewRate = (reviewReq.getReviewRate()
+                    + Integer.parseInt(reviewRateByProductNo.getProductAvgRate()) * (reviewProductNoCount - 1))
+                    / reviewProductNoCount;
+            String newReviewRate1 = Integer.toString(newReviewRate);
+            reviewFormService.updateProductAvgRate(productNo, newReviewRate1);
+        }
+    }
+
+}

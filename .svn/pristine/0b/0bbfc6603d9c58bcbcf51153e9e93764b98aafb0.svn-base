@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+
+<mapper namespace="com.goupang.www.dao.inquiry.InquiryDAO">
+
+	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+	<select id="selectInquiryList" resultType="com.goupang.www.dto.inquiry.Inquiry"> 
+	SELECT
+	INQUIRY_NO,       
+	MEMBER_NO,
+	PRODUCT_NO, 
+	INQUIRY_TITLE,
+	INQUIRY_CONTENT,
+	INQUIRY_WRT_DATE,     
+	INQUIRY_MOD_DATE,       
+	INQUIRY_DEL_DATE
+	FROM INQUIRY
+	</select>
+	
+	<insert id="insertInquiry">
+	INSERT INTO INQUIRY(
+	INQUIRY_NO,       
+	MEMBER_NO,
+	PRODUCT_NO, 
+	INQUIRY_TITLE,
+	INQUIRY_CONTENT,
+	INQUIRY_WRT_DATE,     
+	INQUIRY_MOD_DATE,       
+	INQUIRY_DEL_DATE
+	)VALUES(
+	INQUIRY_SEQ.nextval,
+	#{MEMBER_NO},
+	#{PRODUCT_NO},
+	#{INQUIRY_TITLE},
+	#{INQUIRY_CONTENT},
+	SYSDATE,
+	SYSDATE,
+	SYSDATE
+	)
+	</insert>
+</mapper>

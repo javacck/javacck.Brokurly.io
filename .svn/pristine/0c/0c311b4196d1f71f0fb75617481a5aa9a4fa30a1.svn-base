@@ -1,0 +1,27 @@
+package com.goupang.www.service.sample;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.goupang.www.dao.sample.SampleDAO;
+import com.goupang.www.dto.sample.Sample;
+
+@Service
+public class SampleListService {
+	
+	private SampleDAO sampleDao;
+	
+	@Autowired
+	public void setSampleDao(SampleDAO sampleDao) {
+		this.sampleDao = sampleDao;
+	}
+		
+	@Transactional
+	public List<Sample> list() {
+		List<Sample> sampleList = sampleDao.selectAll();
+		return sampleList;
+	}
+}

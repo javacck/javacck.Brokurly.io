@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>권한없음</title>
+</head>
+<body>
+	<%@ include file="/WEB-INF/views/include/commonIncludeCSS.jsp"%>
+	 <!--================Top Header Area =================-->
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	 <!--================End Top Header Area =================-->
+	<h1>죄송합니다</h1>
+	권한이 없습니다. 관리자에게 문의바랍니다.<br>
+	상담번호:1111-1111-1111
+		 <!--================Footer Area =================-->
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+	 <!--================End Footer Area =================-->
+	<%@ include file="/WEB-INF/views/include/commonIncludeJS.jsp"%>
+</body>
+</html>

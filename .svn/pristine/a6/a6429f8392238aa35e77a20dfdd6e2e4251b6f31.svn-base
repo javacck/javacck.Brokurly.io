@@ -1,0 +1,27 @@
+package com.goupang.www.service.inquiry;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.inquiry.InquiryDAO;
+import com.goupang.www.dto.inquiry.Inquiry;
+
+@Service
+@Transactional
+public class InquiryListService {
+	
+	@Autowired
+	private InquiryDAO inquiryDAO;
+
+	public List<Inquiry> selectInquiryList(int productNo) throws Exception {
+		return inquiryDAO.selectInquiryList(productNo);
+	}
+
+}
+
+
+	
+
+

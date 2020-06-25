@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+<!DOCTYPE html>
+
+<html>
+<head>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+
+<body>
+
+<table border="1px solid black">
+<tr><th><input type="checkbox" name="all" class="check-all"></th><th>회원 번호</th><th>이메일</th><th>이름</th><th>전화번호</th><th>주소</th><th>탈퇴날짜</th><th>권한설정</th></tr>
+
+		
+        <c:forEach var="member" items="${memberList}">
+        <form action="${pageContext.request.contextPath}/manager/memberList" modelAttribute="member" method="post">
+        <tr>
+        <td><input type="checkbox" name="select" class="select" value="${member.memberNo}" ></input></td>
+      <td><input type="text" value="${member.memberNo}" name="memberNo" id="memberNo" readonly=readonly></input></td>
+      <td>${member.memberEmail}</td>
+      <td>${member.memberName}</td>
+      <td>${member.memberPhone}</td>
+      <td>${member.memberAddr}</td>
+      <td>${member.memberLeaveDate}</td>
+      <td><input type="text" placeholder="${member.memberGrant}" name="memberGrant"></input></td>
+      <td><input type="submit" value="수정"></input>
+      <button type="button" onclick="deleteSeller('${pageContext.request.contextPath}/manager/memberDelete?memberNo=${member.memberNo}')">삭제
+      </button></td>
+      </tr>
+      </form>
+
+        </c:forEach>
+</table>
+<form action="${pageContext.request.contextPath}/manager/memberSelectList" modelAttribute="memberName">
+<input type="text" value="${member.memberName}" name="memberName" id="memberName"></input>
+<input type="submit" value="검색"></input>
+</form>
+<input type="button" value="뒤로가기" onclick="history.back(-1);"></input>
+
+<script type="text/javascript">
+function deleteSeller(url) {
+	if(confirm("정말 삭제합니까?")){		
+	location.href=url;
+	}
+}
+
+$( document ).ready( function() {
+  $( '.check-all' ).click( function() {
+    $( '.select' ).prop( 'checked', this.checked );
+  } );
+} );
+
+
+</script>
+
+</body>
+</html>

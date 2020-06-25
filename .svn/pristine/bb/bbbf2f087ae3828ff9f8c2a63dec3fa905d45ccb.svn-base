@@ -1,0 +1,31 @@
+package com.goupang.www.controller.inquiry;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.service.inquiry.InquiryListService;
+
+
+
+@Controller
+public class InquiryListController {
+	@Autowired
+	private InquiryListService inquiryListService;
+	
+	@RequestMapping("/inquiry/inquiryList")
+	public String list(Model model, @ModelAttribute("inquiry") Inquiry inquiry)throws Exception {
+		//원래 다른곳에서 받아와야 할 상품번호
+		int productNo = 1;
+	    List<Inquiry> inquiryList = inquiryListService.selectInquiryList(productNo);
+	    model.addAttribute("inquiryList", inquiryList);		
+//	    Inquiry inquiry = new Inquiry();
+//	    model.addAttribute("inquiry", inquiry);
+	    
+		return "/inquiry/inquiryList";
+	}
+}

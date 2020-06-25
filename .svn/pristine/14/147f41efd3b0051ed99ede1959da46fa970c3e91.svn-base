@@ -1,0 +1,94 @@
+package com.goupang.www.controller.cart;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.cart.Cart;
+import com.goupang.www.dto.member.AuthInfo;
+import com.goupang.www.service.cart.CartFormService;
+import com.goupang.www.service.cart.CartListService;
+import com.goupang.www.service.cart.CartUpdateService;
+
+@Controller
+public class CartFormController {
+
+	@Autowired
+	private CartListService cartListService;
+	@Autowired
+	private CartUpdateService cartUpdateService;
+	@Autowired
+	private CartFormService cartFormService;
+
+	@GetMapping("/cart/addCart")
+	public String addCartForm(Model model, HttpServletRequest req, Cart cart) throws Exception {
+		System.out.println("addCartController");
+		HttpSession session = req.getSession(false);
+		Object authInfo = session.getAttribute("authInfo");
+		AuthInfo auth = (AuthInfo) authInfo;
+		int memberNo = auth.getId().intValue();
+			
+		int productNo = Integer.parseInt(req.getParameter("productNo"));
+		int orderQty = Integer.parseInt(req.getParameter("orderQty"));
+		System.out.println("memberNo:" +memberNo + "productNo:" + productNo + "orderQty:" + orderQty );
+		
+		//기존 장바구니에 상품이 있는지 검사
+		int count = cartListService.checkMemberHasCart(memberNo,productNo);
+		System.out.println("count: " + count);
+		cart.setMemberNo(memberNo);
+		System.out.println("cart: " + cart);
+		if(count>0) {
+			
+			cartUpdateService.updateCart(cart);
+			System.out.println("cart : " + cart);
+		}else {
+			
+			cartFormService.insertCart(cart);
+			System.out.println("cart : " + cart);
+		}
+		model.addAttribute("cart",cart);
+		String view = "/product/productDetailList?productNo="+productNo;
+		return view;
+		//int result = count == 1? cartUpdateService.updateCart() : cartFormService.insertCart(cart);
+//		Cart hasCartNo = cartListService.selectCartByCartNo(memberNo, productNo);
+//
+//		if (hasCartNo != null) {
+//			int qty = hasCartNo.getOrderQty();
+//			int cartNo = hasCartNo.getCartNo();
+//			int addQty = qty + orderQty;
+//
+//			hasCartNo = cartUpdateService.updateCart(cartNo, addQty);
+//			System.out.println("hasCartNo : " + hasCartNo);
+//
+//		} else
+//		cartFormService.insertCart(hasCartNo);
+
+		/* 원래는 다른 페이지에서 받아와야 되는 값들 */
+//		cartRequest.setMemberNo(22);
+//		cartRequest.setProductNo(3);
+//		cartRequest.setOrderQty(1);
+		//model.addAttribute("hasCartNo", hasCartNo);
+		//
+	}
+
+	@PostMapping("/cart/addCart")
+	public String addCart(Model model, Cart cart, HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession(false);
+		Object authInfo = session.getAttribute("authInfo");
+		AuthInfo auth = (AuthInfo) authInfo;
+		long memberNo = auth.getId();
+		cartFormService.insertCart(cart);
+		List<Cart> cartList = cartListService.memberCartList(memberNo);
+		model.addAttribute("cartList", cartList);
+		System.out.println("cartList" + cartList);
+		return "/cart/cartList";
+
+	}
+}

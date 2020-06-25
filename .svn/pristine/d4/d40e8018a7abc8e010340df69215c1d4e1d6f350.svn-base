@@ -1,0 +1,46 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>상품평등록</title>
+</head>
+<body>
+    <h2>상품평</h2>
+    <h2></h2>
+    <p>
+        <label>상품명:
+      ${reviewRequest.productName}
+        </label>
+        <label>상품옵션:
+      ${reviewRequest.productOption}
+        </label>
+        <label>회원명:
+      ${reviewRequest.memberName}
+        </label>
+    </p>
+    <form:form action="${pageContext.request.contextPath}/review/reviewForm" modelAttribute="reviewRequest">
+    <p>
+        <label>평점:
+        <form:input path="reviewRate"/>
+        </label><br>
+        <label>상품평:
+        <form:input path="reviewContent"/>
+        </label><br>
+        <label>한줄평:
+        <form:input path="reviewSummary"/>
+        </label><br>
+        <form:hidden path="orderProductsNo"/>
+        <form:hidden path="productNo"/>
+        <form:hidden path="productName"/>
+        <form:hidden path="productOption"/>
+        <form:hidden path="memberNo"/>
+        <form:hidden path="memberName"/> 
+    </p>
+
+    <input type="submit" value="상품평 등록">
+    </form:form>
+</body>
+</html>

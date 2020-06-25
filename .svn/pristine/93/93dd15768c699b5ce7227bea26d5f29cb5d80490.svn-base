@@ -1,0 +1,206 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<title>주문/결제 화면이야</title>
+	<%@ include file="/WEB-INF/views/include/commonIncludeCSS.jsp"%>
+	<%@ include file="/WEB-INF/views/include/commonIncludeJS.jsp"%>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/include/banner.jsp"%>
+
+<%-- ${orderCommand } --%>
+</head>
+<body>
+	<form id="orderForm">
+		<div>
+			<h2>상품정보</h2>
+			<table>
+				<c:forEach var="item" items="${orderCommand}" varStatus="i">
+					<c:set var="info" value="${item}" />
+					<tr class="product">
+						<input type="hidden" value="${item.value.cartNo }" name="cartNo" />
+						<input type="hidden" value="${item.value.productNo }" name="productNoArr" id="productNo"/>
+						<th>상품명</th>
+						<td><input type="text" value="${item.value.productName }" name="productName" readonly="readonly" /></td>
+						<th>상품수</th>
+						<td><input type="text" value="${item.value.orderQty }"
+							name="orderQty" id="orderQty" readonly="readonly" /></td>
+						<th>상품금액</th>
+						<td><input type="text"
+							value="${item.value.orderQty*item.value.productPrice }"
+							name="productPrice" readonly="readonly" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+
+			<h2>구매자정보</h2>
+
+			<table>
+				<tr>
+					<th>구매자이름</th>
+					<input type="hidden" value="${info.value.memberNo }"
+						name="memberNo" id="memberNo"/>
+					<td><input type="text" value="${info.value.memberName}"
+						name="memberName" readonly="readonly" /></td>
+				</tr>
+				<tr>
+					<th>구매자이메일</th>
+					<td><input type="text" value="${info.value.memberEmail }"
+						name="memberEmail" readonly="readonly" /></td>
+				</tr>
+				<tr>
+					<th>구매자전화번호</th>
+					<td><input type="text"
+						placeholder="${info.value.memberPhone }" name="memberPhone">
+						<button type="button" value="수정"
+							onclick="modifyPhone('${pageContext.request.contextPath}/order/modifyPhone?memberNo=${info.value.memberPhone}')">수정</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<hr>
+		<div>
+			<h2>배송정보</h2>
+			<table>
+				<tr>
+					<th>배송지</th>
+					<td><input type="text" value="서울시 구로구" id="addr"
+						name="orderDeliveryDestination" >
+					<td>
+					<td>
+						<button type="button" onclick="execDaumPostCode()"
+							name="orderDeliveryDestination"
+							value="${order.orderDeliveryDestination}">새로운배송지 추가</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<hr>
+		<div>
+			<h2>결제정보</h2>
+			<table>
+
+				<tr>
+					<td><input type="radio" name="payMethod" value="마지막결제정보">마지막
+						결제 정보
+						<p>db에서 가져옴</p> <input type="radio" id="paymentNo"
+						name="payMethod" value="결제방식">새로운 결제 <br>
+						<table>
+							<tr>
+								<td><input type="radio" name="paymentNo" 
+									onchange="paymentMethod(this)" value="1">계좌이체</td>
+								<td><input type="radio" name="paymentNo"
+									onchange="paymentMethod(this)" value="2">체크/신용카드</td>
+								<td><input type="radio" name="paymentNo"
+									onchange="paymentMethod(this)" value="3">휴대폰</td>
+								<td><input type="radio" name="paymentNo"
+									onchange="paymentMethod(this)" value="4">무통장입금</td>
+							</tr>
+							<tr>
+								<td><select id="select" name="select">
+										<option>선택</option>
+								</select></td>
+								<td>번호 <input type="text">
+								</td>
+							</tr>
+						</table>
+				</tr>
+			</table>
+		</div>
+
+		<input type="button" class="order" onclick="orderBtn()" value="결제하기">
+	</form>
+	
+	<script type="text/javascript">
+	function paymentMethod(e) {
+		var one = [ "국민", "우리", "농협" ];
+		var two = [ "현대", "삼성", "비씨" ];
+		var three = [ "LGU+", "SKT", "KT" ];
+		var four = [ "우리 (1002-11-11-11)", "농협 (350-112-111)",
+				"국민(420-0002-1231)" ];
+		var target = document.getElementById("select");
+		if (e.value == "1")
+			var d = one;
+		else if (e.value == "2")
+			var d = two;
+		else if (e.value == "3")
+			var d = three;
+		else if (e.value == "4")
+			var d = four;
+		target.options.length = 0;
+		for (x in d) {
+			var opt = document.createElement("option");
+			opt.value = d[x];
+			opt.innerHTML = d[x];
+			target.appendChild(opt);
+		}
+	}		
+	
+	
+			function Product(productNo, orderQty) {
+				this.productNo = productNo;
+				this.orderQty = orderQty;
+			}
+	
+			function orderBtn() {
+		
+				/* var orderNoArr1 = new Array();
+				var orderNoArr = $('input[name=productNoArr]');
+				console.log("orderNoarr: ",orderNoArr);
+				var arrykeys=Object.keys(orderNoArr);
+				var orderNoArr1=Object.keys(orderNoArr[0]);
+				consloe.log("orderNoArr1",orderNoArr1);
+				console.log("orderNoArr",orderNoArr[0]);
+				console.log("keys",keys); */
+				var orderProductArr = new Array();
+				//class name에서
+				$(".product").each(function(){
+						var productNo = $(this).find('#productNo').val();
+						console.log("productNo: ", productNo);
+						var orderQty = $(this).find('#orderQty').val();
+						console.log("orderQty: ", orderQty);
+						orderProductArr.push(new Product(productNo, orderQty));
+				});
+				console.log("orderProductArr : " , orderProductArr);
+				var memberNo = $("#memberNo").val();
+				var addr = $("#addr").val();
+				
+				var paymentNo = document.querySelector('input[name="paymentNo"]:checked').value;
+				
+				var params = {
+						orderProductArr : orderProductArr,
+						memberNo : memberNo,
+						addr : addr,
+						paymentNo : paymentNo
+				}
+				console.log("params: ", params);
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/order/orderForm",
+					type : "post",
+					contentType: 'application/json; charset=utf-8',
+					data : JSON.stringify(params),
+					success : function(result) {
+						if (result > 0 ) {
+							location.href = "${pageContext.request.contextPath}/order/orderSuccess";
+						} else {
+							alert("주문실패");
+						}
+					}
+				});
+			}			
+	</script>
+	<!--================Footer Area =================-->
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+	<!--================End Footer Area =================-->
+
+</body>
+</html>

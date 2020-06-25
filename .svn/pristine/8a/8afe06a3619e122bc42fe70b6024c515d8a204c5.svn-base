@@ -1,0 +1,43 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<title>상품등록</title>
+</head>
+<body>
+	<h2>등록</h2>
+	<form:form action="${pageContext.request.contextPath}/product/regist"
+		modelAttribute="productRequest" >
+		<p>
+			<label>물품 등록하기<br><br> 
+			판매자번호 : <form:input path="sellerNo" /><br> 
+			상품명 : <form:input path="productName" /> <br>
+			브랜드명 : <form:input path="productBrand" /> <br>
+			가격 : <form:input path="productPrice" /> <br>
+			재고량 : <form:input path="productStock" /> <br>
+			옵션 : <form:input path="productOption" /> <br>
+			┌ 상세정보 ┐ <textarea class="ckeditor"	name="productContent" id="productContent"></textarea> 
+			
+			<script>
+						var ckeditor_config = {
+							height : 300,
+							resize_enable : false,
+							enterMode : CKEDITOR.ENTER_BR,
+							shiftEnterMode : CKEDITOR.ENTER_P,
+							filebrowserUploadUrl : "${pageContext.request.contextPath}/product/regist.do"
+						};
+
+						CKEDITOR.replace("productContent", ckeditor_config);
+					</script>
+			</label>
+			<%=request.getRealPath("/")%>
+		</p>
+
+		<input type="submit" value="상품등록">
+	</form:form>
+</body>
+</html>

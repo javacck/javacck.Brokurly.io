@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+
+<mapper namespace="com.goupang.www.dao.member.MemberDAO">
+
+	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+	<select id="selectByEmail" resultType="com.goupang.www.dto.member.Member"> 
+	SELECT
+	MEMBER_EMAIL
+	FROM MEMBER
+	WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+
+	<insert id="insertMember">
+	INSERT INTO MEMBER(
+	MEMBER_NO,
+	MEMBER_EMAIL,
+	MEMBER_PW,
+	MEMBER_NAME,
+	MEMBER_PHONE,
+	MEMBER_GRANT,
+	MEMBER_ADDR
+	)values(
+	MEMBER_SEQ.NEXTVAL,
+	#{memberEmail},
+	#{memberPw},
+	#{memberName},
+	#{memberPhone},
+	1,
+	'서울 금천구 가산디지털1로 186 제이플라츠 5층 한국아이티인재개발원'
+	)
+	</insert>
+
+</mapper>

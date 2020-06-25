@@ -1,0 +1,12 @@
+package com.goupang.www.dao.search;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.goupang.www.dto.product.Product;
+//마이바티스가 알아서impl 만들어서 맵핑해줘서 빈등록 필요없음(아마 마이바티스랑 스프링 연동해주는 라이브러리가 해주는듯) 
+public interface SearchDAO {
+
+	 List<Product> selectProductListByProductName(@Param("productName")String productName)throws Exception;
+}

@@ -1,0 +1,46 @@
+package com.goupang.www.controller.product;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartRequest;
+
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.dto.product.ProductRequest;
+import com.goupang.www.service.product.ProductFormService;
+import com.goupang.www.service.product.ProductListService;
+
+
+@Controller
+public class productFormController {
+	
+	@Autowired
+	private ProductFormService productFormService;
+	@Autowired
+	private ProductListService productListService;
+	@GetMapping("/product/regist")
+	public String form(Model model){
+		ProductRequest productReq = new ProductRequest();
+		/*원래는 다른 페이지에서 받아와야 되는 값들*/
+		productReq.setSellerNo(1);
+		model.addAttribute("productRequest",productReq);
+		return "/product/regist";
+	}
+	@PostMapping("/product/regist")
+	public String submit(Model model,@ModelAttribute Product product,ProductRequest productReq)throws Exception {
+		//System.out.println("submit:"+inquiryReq.toString());
+	    productFormService.insertProductList(productReq);
+	    
+		 List<Product> productList = productListService.selectProductList(product.getSellerNo());
+		    model.addAttribute("productList", productList);
+		return "/product/productList";
+	}
+	
+	
+}

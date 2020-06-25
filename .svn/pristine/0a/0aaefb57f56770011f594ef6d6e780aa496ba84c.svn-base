@@ -1,0 +1,37 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ReviewUpdateForm</title>
+</head>
+<body>
+	<h2>상품평 수정</h2>
+	<p>
+		<label>상품명:
+		${reviewRequest.productName}
+		</label>
+	</p>
+    <p>
+        <label>작성자:
+      ${reviewRequest.memberName}
+        </label>
+    </p>
+	<form:form action="${pageContext.request.contextPath}/review/reviewUpdate" modelAttribute="review">
+	    <table border="1px solid black">
+	    
+			<tr><th>필드값</th><th>필드명</th><th>내용</th></tr>
+			<tr><td>REVIEW_NO      </td><td>상품평번호</td><td><form:hidden path="reviewNo" value="${review.reviewNo}"/>${review.reviewNo}</td></tr>
+			<tr><td>PRODUCT_NO     </td><td>상품번호</td><td><form:hidden path="productNo" value="${review.productNo}"/>${review.productNo}</td></tr>
+			<tr><td>MEMBER_NO	   </td><td>회원번호</td><td>${review.reviewNo}</td></tr>
+			<tr><td>REVIEW_RATE    </td><td>별점</td><td><form:input path="reviewRate" value="${review.reviewRate}"/>${review.reviewRate}</td></tr>
+			<tr><td>REVIEW_CONTENT </td><td>상품평내용</td><td><form:input path="reviewContent" value="${review.reviewContent}"/>${review.reviewContent}</td></tr>
+			<tr><td>REVIEW_SUMMARY </td><td>상품평요약</td><td><form:input path="reviewSummary" value="${review.reviewSummary}"/>${review.reviewSummary}</td></tr>
+			<tr><td>REVIEW_DATE    </td><td>작성일</td><td>${review.reviewDate}</td></tr>
+			<tr><td> </td><td> </td><td><input type="submit" value="수정 완료"></td></tr>
+		</table>
+	</form:form>
+</body>
+</html>

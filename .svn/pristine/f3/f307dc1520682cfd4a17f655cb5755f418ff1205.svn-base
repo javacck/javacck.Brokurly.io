@@ -1,0 +1,14 @@
+package com.goupang.www.dto.inquiry;
+
+import java.util.Date;
+
+public class InquiryReply {
+	private int inquiryReplyNo; /*NOT NULL, 문의답변번호 */
+	private int sellerNo; /*NOT NULL, 판매자번호 */
+	private int inquiryNo; /*NOT NULL, 문의번호 */
+	private String replyContent; /* 문의답변내용 */
+	private Date replyWrtDate; /* 문의답변작성일 */
+	private Date replyModDate; /* 문의답변수정일 */
+	private Date replyDelDate;/* 문의답변삭제일 */
+
+}

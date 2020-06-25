@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ Help > Install New Software > http://emmet.io/eclipse/updates
+<table border="1px solid black">
+<tr><th>s_no</th><th>s_name</th></tr>
+        <c:forEach var="sample" items="${sampleList}">
+        <tr>
+            <td>${sample.s_no}</td>
+            <td>${sample.s_name}</td>
+        </tr>
+        </c:forEach>
+</table>
+</body>
+</html>

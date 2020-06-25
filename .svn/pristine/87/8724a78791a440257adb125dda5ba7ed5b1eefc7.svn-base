@@ -1,0 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<c:if test="${error != null}">
+
+    <script type="text/javascript">
+    var v = "${error}";
+  	alert(v);
+	</script>
+
+</c:if>
+
+<c:forEach var="p" items="${productList}">
+    <form:form action="${pageContext.request.contextPath}/product/productUpdateForm" modelAttribute="product">
+    <table border ="1px solid black">
+    <tr><th>상품번호</th><th>판매자번호</th><th>상품명</th><th>가격</th><th>브랜드</th><th>재고</th><th>상품옵션</th>
+            <th>등록일</th><th>삭제일</th><th>판매시작</th><th>판매종료</th><th>평점</th></tr>
+            <tr><td><form:hidden path="productNo" value="${p.productNo}" />${p.productNo}</td>        
+            <td><form:hidden path="sellerNo" value="${p.sellerNo}" />${p.sellerNo}</td>          
+            <td><form:hidden path="productName" value="${p.productName}" />${p.productName}</td>            
+            <td><form:hidden path="productPrice" value="${p.productPrice}" />${p.productPrice}</td>    
+            <td><form:hidden path="productBrand" value="${p.productBrand}" />${p.productBrand}</td>
+            <td><form:hidden path="productStock" value="${p.productStock}" />${p.productStock}</td>
+            <td><form:hidden path="productOption" value="${p.productOption}" />${p.productOption}</td>
+            <td><form:hidden path="productRegDate" value="${p.productRegDate}"/>${p.productRegDate}</td>
+            <td><form:hidden path="productDelDate" value="${p.productDelDate}"/>${p.productDelDate}</td>
+            <td><form:hidden path="productSellStartDate" value="${p.productSellStartDate}"/>${p.productSellStartDate}</td>
+            <td><form:hidden path="productSellEndDate" value="${p.productSellEndDate}"/>${p.productSellEndDate}</td>
+            <td><form:hidden path="productAvgRate" value="${p.productAvgRate}"/>${p.productAvgRate}</td>
+            <form:hidden path="productContent" value="${p.productContent}"/>
+            <td>
+            <input type="submit" value="상품 수정">
+            <button type="button" onclick="deleteProduct('${pageContext.request.contextPath}/product/productDelete?productNo=${p.productNo}')">상품삭제</button>
+            <a href="${pageContext.request.contextPath}/product/productDetailList?productNo=${p.productNo}">상세보기</a>
+            </td>
+            </tr>
+    </table>
+    </form:form>
+</c:forEach>
+<script type="text/javascript">
+function deleteProduct(url) {
+	//console.log(url)
+	if(confirm("정말 삭제합니까?")){		
+	location.href=url;
+	}
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>장바구니목록이야</title>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+</head>
+<body>
+
+	<c:if test="${error != null}">
+
+		<script type="text/javascript">
+			var v = "${error}";
+			alert(v);
+		</script>
+
+	</c:if>
+	<h1>장바구니</h1>
+	<table border="1px solid black">
+		<tr>
+			<div class="allCheck">
+				<th><label for="allCheck">전체 선택</label> <input type="checkbox"
+					name="allCheck" id="allCheck" /></th>
+			</div>
+			<script>
+				//전체선택 체크박스 클릭시 전체 선택
+				$("#allCheck").click(function() {
+					var chk = $("#allCheck").prop("checked");
+					if (chk) {
+						$(".chBox").prop("checked", true);
+					} else {
+						$(".chBox").prop("checked", false);
+					}
+				});
+			</script>
+			<th>member_no</th>
+			<th>product_name</th>
+			<th>product_price</th>
+			<th>order_qty</th>
+			<th>total_price</th>
+			<th>delete</th>
+		</tr>
+		<c:forEach var="cart" items="${cartList}">
+			<!-- for(Cart cart : cartList ) -->
+			<form
+				action="${pageContext.request.contextPath}/cart/updateCartList"
+				modelAttribute="cart">
+				<tr>
+
+					<td>
+						<div class="checkBox">
+							<input type="checkbox" name="chBox" class="chBox"
+								data-cartNo="${cart.cartNo}" />
+						</div> <script>
+							//개별 체크박스 선택시 전체선택 체크박스 해제
+							$(".chBox").click(function() {
+								$("#allCheck").prop("checked", false);
+							});
+						</script>
+
+
+					</td>
+
+					<input type="text" value="${cart.cartNo}" name="cartNo" class="cartNo"
+						hidden="hidden"></input>
+					<td><input type="text" value="${cart.memberNo}"
+						name="memberNo" class="memberNo" readonly></input></td>
+					<input type="text" value="${cart.productNo}" name="productNo"
+						class="productNo" hidden="hidden"></input>
+					<td><input type="text" value="${cart.productName}"
+						name="productName" class="productName" readonly></input></td>
+					<td><input type="text" value="${cart.productPrice}"
+						name="productPrice" class="productPrice" readonly></input></td>
+					<td><input type="text" placeholder="${cart.orderQty}"
+						name="orderQty" class="orderQty"></input> <%-- <td><form:input path="orderQty" value="${cart.orderQty}" type="hidden" /> --%>
+						<input type="submit" value="수량변경" /></td>
+					<td><input type="text" name="totalPrice" class="totalPrice"
+						value="${cart.totalPrice}"></input></td>
+					<td><button type="button"
+							onclick="deleteCart('${pageContext.request.contextPath}/cart/deleteCartList?cartNo=${cart.cartNo}&memberNo=${cart.memberNo}')">장바구니
+							삭제</button></td>
+				</tr>
+			</form>
+
+
+		</c:forEach>
+
+
+	</table>
+	<hr>
+	<div>
+		<button type="button" class="order_btn" data-cartNo="${cart.cartNo }">선택주문</button>
+
+		<script>
+			
+			$(".order_btn").click(function() {
+				var checkArr = new Array();
+
+				$("input[class='chBox']:checked").each(function() {
+					checkArr.push($(this).attr("data-cartNo"));
+				});
+				console.log("checkArr: ", checkArr);
+				console.log("checkArr: ", $.param(checkArr));
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/order/orderPage",
+					type : "post",
+					data : {
+						chbox : checkArr
+					},
+					success : function(data) {
+						console.log("data: ", data);
+						var param = encodeURIComponent(JSON.stringify(data));
+						console.log("param: ", param);
+						
+						location.href = "${pageContext.request.contextPath}/order/orderPage?data="+param;
+					}
+				}); 
+
+			});
+		</script>
+
+		<button type="button" class="delete_btn" data-cartNo="${cart.cartNo }">선택삭제</button>
+
+		<script>
+			$(".delete_btn")
+					.click(
+							function() {
+								var confirm_val = confirm("정말 삭제하시겠습니까?");
+
+								//개별 선택된 체크박스들을 배열 변수에 저장후 컨트롤러 전송
+								if (confirm_val) {
+									var checkArr = new Array();
+
+									$("input[class='chBox']:checked").each(
+											function() {
+												checkArr.push($(this).attr(
+														"data-cartNo"));
+
+											});
+									console.log(checkArr);
+									$
+											.ajax({
+												url : "${pageContext.request.contextPath}/cart/deleteCheckCart",
+												type : "post",
+												data : {
+													chbox : checkArr
+												},
+												success : function(result) {
+													if (result == 1) {
+														location.href = "${pageContext.request.contextPath}/cart/cartList";
+													} else {
+
+														alert("삭제실패");
+													}
+												}
+											});
+								}
+							});
+		</script>
+
+
+		<button type="button" onclick="${pageContext.request.contextPath}">쇼핑
+			더 하기</button>
+	</div>
+	<script type="text/javascript">
+		function deleteCart(url) {
+			//console.log(url)
+			if (confirm("정말 삭제합니까?")) {
+				location.href = url;
+			}
+
+		}
+	</script>
+
+
+</body>
+</html>

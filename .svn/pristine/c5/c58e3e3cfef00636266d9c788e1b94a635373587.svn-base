@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags"%>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>카테고리별 상품 목록</title>
+</head>
+<body>
+	ㅇㅇ?
+	<c:forEach var="p" items="${productList}">
+		<form:form action="${pageContext.request.contextPath}/product/productDetailList" modelAttribute="product">
+        
+        <p><a href="${pageContext.request.contextPath}/product/productDetailList?productNo=${p.productNo}">
+        <%-- <form:hidden path="productThumbImg" value="${p.productThumbImg}" /> --%>
+        <img src="//img-cf.kurly.com/shop/data/main/1/pc_img_1590735040.jpg"></a></p>
+
+		</form:form>
+	</c:forEach>
+</body>
+</html>

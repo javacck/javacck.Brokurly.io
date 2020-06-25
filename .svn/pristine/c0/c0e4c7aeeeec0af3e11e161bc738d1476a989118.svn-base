@@ -1,0 +1,18 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goupang admin</title>
+</head>
+<body>
+    <h1>Goupang admin Page!</h1>
+    <hr>
+    <a href="${pageContext.request.contextPath}/manager/memberList">일반회원 관리</a>
+    <a href="${pageContext.request.contextPath}/manager/sellerList">구매자회원 관리</a>
+    <a href="${pageContext.request.contextPath}/manager/logout">로그아웃</a>
+    
+</body>
+</html>

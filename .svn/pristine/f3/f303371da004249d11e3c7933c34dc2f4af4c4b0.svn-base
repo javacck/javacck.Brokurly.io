@@ -1,0 +1,42 @@
+package com.goupang.www.service.member;
+
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.inquiry.InquiryDAO;
+import com.goupang.www.dao.member.MemberDAO;
+import com.goupang.www.dto.inquiry.InquiryRequest;
+import com.goupang.www.dto.member.Member;
+import com.goupang.www.dto.member.RegisterRequest;
+import com.goupang.www.exception.member.DuplicateMemberException;
+
+
+
+@Service
+@Transactional
+public class MemberRegisterService {
+	
+	@Autowired
+	private MemberDAO memberDAO;
+
+	public void regist(RegisterRequest req) {
+		List<Member> email = memberDAO.selectByEmail(req.getEmail());
+		
+		if (email.size() > 0 && email.isEmpty()) {
+			throw new DuplicateMemberException("dup email " + req.getEmail());
+		}
+		memberDAO.insertMember(req.getEmail(), req.getPassword(), req.getName(), req.getPhone());
+
+		
+	}
+
+}
+
+
+	
+
+

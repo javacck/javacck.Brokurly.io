@@ -1,0 +1,81 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>장바구니 추가</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+<script>
+function addCart() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+</script>
+</head>
+<body>
+
+	<h2>장바구니</h2>
+	<form:form action="${pageContext.request.contextPath}/cart/addCart"
+		modelAttribute="cart">
+
+		<p>
+			memberNo:<br>
+			<form:input path="memberNo" placeholder="${memberNo}" /><br>
+
+			productNo:<br>
+			<form:input path="productNo" /><br>
+
+			orderQty:<br>
+			<form:input path="orderQty" /><br>
+
+		</p>
+		<input type="submit" value="장바구니 담기" onclick="addCart()">
+	</form:form>
+	
+	<div id="snackbar">해당 상품을 장바구니에 담았습니다.</div>

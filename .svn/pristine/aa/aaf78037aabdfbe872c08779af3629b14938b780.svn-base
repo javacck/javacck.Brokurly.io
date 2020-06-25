@@ -1,0 +1,10 @@
+package com.goupang.www.dao.product;
+
+import com.goupang.www.dto.product.FileVo;
+
+public interface FileUploadDao {
+
+    int insertImg(FileVo fileVo);
+    int insertImgThumb(FileVo fileVo);
+    
+}

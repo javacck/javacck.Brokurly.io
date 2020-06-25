@@ -1,0 +1,47 @@
+package com.goupang.www.service.review;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.goupang.www.dao.review.ReviewDAO;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.dto.review.ReviewRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+@Transactional
+public class ReviewFormService {
+	@Autowired
+	private ReviewDAO reviewDAO;
+	
+	public Review selectReviewRateByMemberNo(int memberNo) throws Exception{
+		return reviewDAO.selectReviewRateByMemberNo(memberNo);
+	}	
+	public Product selectReviewRateByProductNo(int productNo) throws Exception {
+		return reviewDAO.selectReviewRateByProductNo(productNo);
+	}	
+	public Review selectReviewRateByProductNoMemberNo(int memberNo, int productNo) throws Exception {
+		return reviewDAO.selectReviewRateByProductNoMemberNo(memberNo, productNo);
+	}	
+	public int selectReviewCountByProductNo(int productNo) throws Exception {
+		return reviewDAO.selectReviewCountByProductNo(productNo);
+	}	
+	public void updateProductAvgRate(int productNo, String productAvgRate) throws Exception{
+		reviewDAO.updateProductAvgRate(productNo, productAvgRate);
+	}
+	
+	public void insertReviewList(ReviewRequest reviewReq) throws Exception {
+		//System.out.println("insertReview: "+reviewReq.toString());
+		
+		reviewDAO.insertReview(
+				//reviewReq.getMemberNo(),
+				reviewReq.getOrderProductsNo(),
+				reviewReq.getProductNo(),
+				reviewReq.getReviewRate(),
+				reviewReq.getReviewContent(),
+				reviewReq.getReviewSummary()
+				);
+	}
+}

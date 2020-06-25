@@ -1,0 +1,106 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><spring:message code="member.register" /></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2><spring:message code="member.info" /></h2>
+   <form:form action="step3" modelAttribute="registerRequest">
+    <p>
+        <label><spring:message code="email" />:<br>
+        <form:input path="email" />
+        <form:errors path="email"/>
+        </label>
+    </p>
+    <p id ="checkIdResult"></p>
+    <p>
+        <label><spring:message code="name" />:<br>
+        <form:input path="name" />
+        <form:errors path="name"/>
+        </label>
+    </p>
+    <p>
+        <label><spring:message code="password" />:<br>
+        <form:password path="password" />
+        <form:errors path="password"/>
+        </label>
+    </p>
+    <p>
+        <label><spring:message code="password.confirm" />:<br>
+        <form:password path="confirmPassword" />
+        <form:errors path="confirmPassword"/>
+        </label>
+    </p>
+    <input type="submit" value="<spring:message code="register.btn" />">
+    </form:form>
+      <button id="somebutton">press here</button>
+    <div id="somediv"></div>
+   <script>
+   $(function(){
+       $("#email").blur(function() {
+    	   var content = $(this).val();
+/*     	   var emailId = $(this).attr('id');
+    	 loadDoc("/sample/sampleAjax",content,emailId);
+    		console.log(content,emailId);
+    		var ss  = sa(content);
+    		console.log(ss); */
+       });
+   });
+	var url = "/sample/sampleAjax";
+	
+	$(document).on("click", "#somebutton", function() {        
+	    $.get(url, function(responseJson) {
+	    	console.log(responseJson);
+	        var $table = $("<table>").appendTo($("#somediv")); 
+	        $.each(responseJson, function(index, product) { 
+	        	console.log(product);
+	            $("<tr>").appendTo($table)                     
+	                .append($("<td>").text(product.id))        
+	                .append($("<td>").text(product.email))        
+	                .append($("<td>").text(product.name))      
+	                .append($("<td>").text(product.registerDateTime));    
+	        });
+	    });
+	});
+   /* 
+function sa(content){
+	return content;
+};
+function passwordCheck(){
+	var pwVal = document.getElementById("pw").value;
+	var pwChkVal = document.getElementById("pwChk").value;
+	
+	if(pwVal == ""){
+		document.getElementById("pw_confirm").innerHTML = "비밀번호를 입력해 주세요";
+	}else{
+		if(pwVal != pwChkVal){
+			document.getElementById("pw_confirm").innerHTML = "비밀번호를 확인해 주세요";
+		}else{
+			document.getElementById("pw_confirm").innerHTML = "굿";
+		}
+	}
+
+	
+} */
+
+
+/* function loadDoc(url,content){
+    var xhttp = new XMLHttpRequest(); //ajax 사용을 위한 내장객체 생성
+    xhttp.onreadystatechange = function(){ //readystate를 변화시킬것이다
+        if(this.readyState == 4 && this.status == 200){//리퀘스트 리스폰스 확인. 0 안보내졌다 1서버가 받았다 2해더가 열렸다 3읽고있다 4리퀘스트를 처리했다  status: 리스폰스 결과에 따른 값
+            console.log(this.status);
+            console.log(this.response);
+            document.getElementById("checkIdResult").innerHTML = this.responseText;
+        }
+    }
+      xhttp.open("POST", url, true);//리퀘스트 초기화(생성). 방식,url,비동기화 여부
+      xhttp.send();//리퀘스트 발송
+} */
+
+</script>
+</body>
+</html>

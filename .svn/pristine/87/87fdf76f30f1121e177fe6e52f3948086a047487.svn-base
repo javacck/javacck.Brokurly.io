@@ -1,0 +1,41 @@
+package com.goupang.www.service.member;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.inquiry.InquiryDAO;
+import com.goupang.www.dto.inquiry.InquiryRequest;
+import com.goupang.www.dto.member.RegisterRequest;
+
+
+@Service
+@Transactional
+public class MemberRegisterService {
+	
+	@Autowired
+	private InquiryDAO inquiryDAO;
+
+	public void insertInquiryList(InquiryRequest inquiryReq) throws Exception {
+		
+		//System.out.println("selectInquiryList:"+inquiryReq.toString());
+		
+		inquiryDAO.insertInquiry(
+				inquiryReq.getMemberNo(),
+				inquiryReq.getProductNo(),
+				inquiryReq.getProductName() + " 에 대한 문의 입니다.",
+				inquiryReq.getInquiryContent()
+				);
+	}
+
+	public void regist(RegisterRequest regReq) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
+
+
+	
+
+

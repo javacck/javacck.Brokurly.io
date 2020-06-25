@@ -1,0 +1,40 @@
+package com.goupang.www.service.member;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.goupang.www.dao.member.MemberDAO;
+import com.goupang.www.dto.member.Member;
+import com.goupang.www.dto.member.RegisterRequest;
+import com.goupang.www.exception.member.DuplicateMemberException;
+
+
+
+@Service
+@Transactional
+public class MemberRegisterService {
+	
+	@Autowired
+	private MemberDAO memberDAO;
+
+	public void regist(RegisterRequest req) {
+		List<Member> email = memberDAO.selectMemberByEmail(req.getEmail());
+		//이메일의 사이즈가 0보다 크거나 이메일이 비어있지 않거나
+		if (email.size() > 0 || !email.isEmpty()) {
+			throw new DuplicateMemberException("dup email " + req.getEmail());
+		}
+		memberDAO.insertMember(req.getEmail(), req.getPassword(), req.getName(), req.getPhone());
+
+		
+	}
+
+}
+
+
+	
+
+

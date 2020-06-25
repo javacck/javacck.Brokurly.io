@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+
+<mapper namespace="com.goupang.www.dao.product.FileUploadDao">
+
+	
+	    <insert id="insertImg">
+    insert into product_img(PRODUCT_IMG_NO,PRODUCT_NO,PRODUCT_IMG_PATH,PRODUCT_THUMB_PATH)
+values(PRODUCT_IMG_SEQ.nextval,#{productNo},#{productImgPath},#{productThumbPath});
+    </insert>
+
+	<update id="insertImgThumb">
+        UPDATE product_img SET
+        PRODUCT_THUMB_PATH = #{productThumbPath}
+        WHERE
+        PRODUCT_NO = #{productNo}
+    </update>
+	
+
+</mapper>

@@ -1,0 +1,71 @@
+package com.goupang.www.dto.inquiry;
+
+import java.util.Date;
+
+public class Inquiry {
+	private int inquiryNo;  /*NOT NULL, 문의번호 */
+	private int memberNo; /*NOT NULL, 회원번호 */
+	private int productNo;  /*NOT NULL, 상품번호 */
+	private String inquiryTitle;  /* 문의제목 */
+	private String inquiryContent;  /* 문의내용 */
+	private Date inquiryWrtDate;  /* 문의작성일 */
+	private Date inquiryModDate;  /* 문의수정일 */
+	private Date inquiryDelDate; /* 문의삭제일 */
+	public int getInquiryNo() {
+		return inquiryNo;
+	}
+	public void setInquiryNo(int inquiryNo) {
+		this.inquiryNo = inquiryNo;
+	}
+	public int getMemberNo() {
+		return memberNo;
+	}
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+	public int getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
+	}
+	public String getInquiryTitle() {
+		return inquiryTitle;
+	}
+	public void setInquiryTitle(String inquiryTitle) {
+		this.inquiryTitle = inquiryTitle;
+	}
+	public String getInquiryContent() {
+		return inquiryContent;
+	}
+	public void setInquiryContent(String inquiryContent) {
+		this.inquiryContent = inquiryContent;
+	}
+	public Date getInquiryWrtDate() {
+		return inquiryWrtDate;
+	}
+	public void setInquiryWrtDate(Date inquiryWrtDate) {
+		this.inquiryWrtDate = inquiryWrtDate;
+	}
+	public Date getInquiryModDate() {
+		return inquiryModDate;
+	}
+	public void setInquiryModDate(Date inquiryModDate) {
+		this.inquiryModDate = inquiryModDate;
+	}
+	public Date getInquiryDelDate() {
+		return inquiryDelDate;
+	}
+	public void setInquiryDelDate(Date inquiryDelDate) {
+		this.inquiryDelDate = inquiryDelDate;
+	}
+	
+	@Override
+	public String toString() {
+		return "Inquiry [inquiryNo=" + inquiryNo + ", memberNo=" + memberNo + ", productNo=" + productNo
+				+ ", inquiryTitle=" + inquiryTitle + ", inquiryContent=" + inquiryContent + ", inquiryWrtDate="
+				+ inquiryWrtDate + ", inquiryModDate=" + inquiryModDate + ", inquiryDelDate=" + inquiryDelDate + "]";
+	}
+	
+	
+}

@@ -1,0 +1,28 @@
+package com.goupang.www.service.order;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.order.OrderDAO;
+import com.goupang.www.dto.order.Order;
+
+
+@Service
+@Transactional
+public class OrderListService {
+	
+	@Autowired
+	private OrderDAO orderDAO;
+
+	
+	public List<Order> orderListAll() throws Exception {
+		System.out.println("OrderListService");
+		return orderDAO.selectAllOrderList();
+	}
+
+	public List<Order> selectByMemberNo(int member_no) throws Exception {
+		return orderDAO.selectByMemberNo(member_no);
+	}
+
+}

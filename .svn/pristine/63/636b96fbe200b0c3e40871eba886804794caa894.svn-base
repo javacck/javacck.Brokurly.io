@@ -1,0 +1,31 @@
+package com.goupang.www.controller.review;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.service.review.ReviewListService;
+import com.goupang.www.service.review.ReviewUpdateService;
+
+@Controller
+public class reviewUpdateController {
+	@Autowired
+	private ReviewUpdateService reviewUpdateService;
+	
+	@PostMapping("/review/reviewUpdateForm")
+	public void form(@ModelAttribute Review review) throws Exception{
+		System.out.println(review.getReviewNo());
+	}
+	
+	@PostMapping("/review/reviewUpdate")
+	public String submit(Model model, @ModelAttribute Review review) throws Exception {
+		reviewUpdateService.updateReview(review);
+//		List<Review> reviewList = reviewListService.selectReviewByProductNoList(review.getProductNo());
+//		model.addAttribute("reviewList", reviewList);
+		
+		return "redirect:/review/reviewList";
+	}
+}

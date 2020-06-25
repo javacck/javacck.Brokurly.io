@@ -1,0 +1,47 @@
+package com.goupang.www.service.review;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.goupang.www.dao.review.ReviewDAO;
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.dto.review.ReviewRequest;
+import com.goupang.www.dto.review.ReviewUpdate;
+
+@Service
+@Transactional
+public class ReviewUpdateService {
+	@Autowired
+	private ReviewDAO reviewDAO;
+	
+	public void insertReviewList(ReviewRequest reviewReq) throws Exception {
+		
+		reviewDAO.insertReview(
+				reviewReq.getOrderProductsNo(),
+				reviewReq.getProductNo(),
+				reviewReq.getReviewRate(),
+				reviewReq.getReviewContent(),
+				reviewReq.getReviewSummary()
+				);
+	}
+	
+	public ReviewUpdate selectReviewByProductNo(int reviewNo) throws Exception {
+		List<Review> reviewList = reviewDAO.selectReviewByProductNoList(reviewNo);
+		Review review = reviewList.get(reviewNo);
+		
+		return null;
+	}
+	
+	public void updateReview(Review review) throws Exception {
+		reviewDAO.updateReview(
+				review.getReviewRate(),
+				review.getReviewNo(),
+				review.getReviewContent(),
+				review.getReviewSummary()
+				);
+	}
+
+}

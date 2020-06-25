@@ -1,0 +1,83 @@
+package com.goupang.www.dto.review;
+
+public class Review {
+	private int reviewNo; //NOT Null 리뷰 번호
+	private int orderProductsNo; //not null 주문 내역 번호
+	private int productNo; //not null 상품 번호
+	private int reviewRate;  //not null 리뷰 점수
+	//reviewRate는 1~5 사이 값만 들어오는 int지만 합쳐져 만들어지는 productRate는 Long이어야 한다.
+	private String reviewContent; //리뷰 내용
+	private String reviewSummary; //리뷰 요약
+	private String reviewDate; //리뷰 작성일
+	
+	public Review() {};
+	
+//	public Review(int productNo, int reviewRate, String reviewContent, 
+//			String reviewSummary, LocalDateTime reviewDate) {
+//		this.productNo = productNo;
+//		this.reviewRate = reviewRate;
+//		this.reviewContent = reviewContent;
+//		this.reviewSummary = reviewSummary;
+//		this.reviewDate = reviewDate;
+//	}
+	
+//	public Review(int orderProductsNo, int productNo, int reviewRate,
+//			String reviewContent, String reviewSummary, LocalDateTime reviewDate) {
+//		this.orderProductsNo = orderProductsNo;
+//		this.productNo = productNo;
+//		this.reviewRate = reviewRate;
+//		this.reviewContent = reviewContent;
+//		this.reviewSummary = reviewSummary;
+//		this.reviewDate = reviewDate;
+//	}
+
+	public int getReviewNo() {
+		return reviewNo;
+	}
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
+	}
+	public int getOrderProductsNo() {
+		return orderProductsNo;
+	}
+	public void setOrderProducts_no(int orderProductsNo) {
+		this.orderProductsNo = orderProductsNo;
+	}
+	public int getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
+	}
+	public int getReviewRate() {
+		return reviewRate;
+	}
+	public void setReviewRate(int reviewRate) {
+		this.reviewRate = reviewRate;
+	}
+	public String getReviewContent() {
+		return reviewContent;
+	}
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+	public String getReviewSummary() {
+		return reviewSummary;
+	}
+	public void setReviewSummary(String reviewSummary) {
+		this.reviewSummary = reviewSummary;
+	}
+	public String getReviewDate() {
+		return reviewDate;
+	}
+	public void setReviewDate(String reviewDate) {
+		this.reviewDate = reviewDate;
+	}
+
+//	@Override
+//	public String toString() {
+//		return "Review [productNo=" + productNo + ", reviewRate=" + reviewRate //여기 멤버가 나와야 되는데 ㄲㄲ 다른데서 집어넣으면 된다고 한다.
+//				+ ", reviewContent=" + reviewContent + ", reviewSummary=" + reviewSummary + ", reviewDate="
+//				+ reviewDate + "]";
+//	}
+}

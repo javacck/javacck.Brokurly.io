@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<table border="1px solid black">
+<tr><th>필드값</th><th>내용</th></tr>
+        <c:forEach var="inquiry" items="${inquiryList}">
+		<tr><td>INQUIRY_NO      </td><td>${inquiry.inquiryNo}</td></tr>
+		<tr><td>MEMBER_NO       </td><td>${inquiry.memberNo}</td></tr>
+		<tr><td>PRODUCT_NO      </td><td>${inquiry.productNo}</td></tr>
+		<tr><td>INQUIRY_TITLE   </td><td>${inquiry.inquiryTitle}</td></tr>
+		<tr><td>INQUIRY_CONTENT </td><td>${inquiry.inquiryContent}</td></tr>
+		<tr><td>INQUIRY_WRT_DATE</td><td>${inquiry.inquiryWrtDate}</td></tr>
+		<tr><td>INQUIRY_MOD_DATE</td><td>${inquiry.inquiryModDate}</td></tr>
+		<tr><td>INQUIRY_DEL_DATE</td><td>${inquiry.inquiryDelDate}</td></tr>
+        </c:forEach>
+</table>
+</body>
+</html>

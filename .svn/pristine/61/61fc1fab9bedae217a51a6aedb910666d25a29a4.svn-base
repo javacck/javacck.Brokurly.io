@@ -1,0 +1,42 @@
+package com.goupang.www.service.cart;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
+import com.goupang.www.dao.cart.CartDAO;
+import com.goupang.www.dto.cart.Cart;
+
+
+@Service
+@Transactional
+public class CartListService {
+	
+	@Autowired
+	private CartDAO cartDAO;
+	
+	public List<Cart> memberCartList(long memberNo) throws Exception {
+		System.out.println("CartListService");
+		return cartDAO.memberCartList(memberNo);
+	}
+
+	
+	public List<Cart> cartListAll() throws Exception {
+		System.out.println("CartListService");
+		return cartDAO.selectAllCartList();
+	}
+
+	public List<Cart> selectByMemberNo(int member_no) throws Exception {
+		return cartDAO.selectByMemberNo(member_no);
+	}
+	
+	public int checkMemberHasCart(int memberNo, int productNo) throws Exception{
+		return cartDAO.checkMemberHasCart(memberNo, productNo);
+	}
+
+}

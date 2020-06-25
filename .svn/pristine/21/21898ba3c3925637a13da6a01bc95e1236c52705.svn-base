@@ -1,0 +1,36 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>문의하기</title>
+</head>
+<body>
+    <h2>문의</h2>
+    <h2></h2>
+    <p>
+        <label>상품명:
+      ${inquiryReplyRequest.productName}
+        </label>
+    </p>
+    <form:form action="${pageContext.request.contextPath}/inquiry/inquiryReplyForm" modelAttribute="inquiryReplyRequest">
+    <p>
+    inquiryReplyRequest.setInquiryNo(inquiryNo);
+		inquiryReplyRequest.setSellerNo(sellerNo);
+		inquiryReplyRequest.setProductNo(productNo);
+		inquiryReplyRequest.setProductName(productName);
+        <label>문의내용:<br>
+        <form:input path="replyContent"/>     
+        </label>
+        <form:hidden path="inquiryNo"/>
+        <form:hidden path="sellerNo"/>
+        <form:hidden path="productNo"/>
+        <form:hidden path="productName"/>
+    </p>
+
+    <input type="submit" value="문의 등록">
+    </form:form>
+</body>
+</html>

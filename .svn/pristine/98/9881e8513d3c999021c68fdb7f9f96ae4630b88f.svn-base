@@ -1,0 +1,71 @@
+package com.goupang.www.service.product;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.inquiry.InquiryDAO;
+import com.goupang.www.dao.product.ProductDAO;
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.dto.inquiry.InquiryRequest;
+import com.goupang.www.dto.inquiry.InquiryUpdate;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.dto.product.ProductRequest;
+import com.goupang.www.dto.product.ProductUpdate;
+
+
+@Service
+@Transactional
+public class ProductUpdateService {
+	
+	@Autowired
+	private ProductDAO productDAO;
+
+	public void insertProductList(ProductRequest productReq) throws Exception {
+		
+		//System.out.println("selectInquiryList:"+inquiryReq.toString());
+		
+	    productDAO.insertProduct(
+                productReq.getProductName(),
+                productReq.getSellerNo(),
+                productReq.getProductBrand(),
+                productReq.getProductPrice(),
+                productReq.getProductStock(),
+                productReq.getProductOption(),
+                productReq.getProductContent()
+                );     
+	}
+
+	
+	public ProductUpdate selectProduct(int productNo) {
+		 List<Product> productList = productDAO.selectProductByProductNo(productNo);
+		 Product product = productList.get(0);
+//		 inquiryUpdate.setInquiryNo(1);
+//			inquiryUpdate.setMemberNo(1);
+//			inquiryUpdate.setInquiryContent("");
+//			inquiryUpdate.setProductName("상품번호1의 상품명");
+//			inquiryUpdate.setMemberName("맴버이름");
+		return null;
+	}
+
+
+	public void updateProduct(Product product)throws Exception {
+	    productDAO.updateProduct(
+				product.getProductName(),
+				product.getSellerNo(),
+				product.getProductBrand(),
+				product.getProductPrice(),
+				product.getProductStock(),
+				product.getProductOption(),
+				product.getProductContent()
+				);
+	}
+
+}
+
+
+	
+
+

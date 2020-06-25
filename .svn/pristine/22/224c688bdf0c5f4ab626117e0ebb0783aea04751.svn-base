@@ -1,0 +1,46 @@
+package com.goupang.www.controller.product;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.service.inquiry.InquiryListService;
+import com.goupang.www.service.inquiry.InquiryUpdateService;
+import com.goupang.www.service.product.ProductListService;
+import com.goupang.www.service.product.ProductUpdateService;
+
+
+@Controller
+public class productUpdateController {
+	@Autowired
+	private ProductUpdateService productUpdateService;
+
+	@Autowired
+	private ProductListService productListService;
+	
+	@PostMapping("/product/productUpdateForm")
+	public void form(@ModelAttribute Product product)throws Exception{
+		System.out.println(product.getProductNo());
+//		InquiryUpdate inquiryUpdate = inquiryUpdateService.selectInquiry(inquiryNo);
+//		
+		//model.addAttribute("inquiry", inquiry);
+		//return "/inquiry/inquiryUpdateForm";
+	}
+	@PostMapping("/product/productUpdate")
+	public String submit(Model model,@ModelAttribute Product product)throws Exception {
+	    productUpdateService.updateProduct(product);
+		List<Product> productList = productListService.selectProductList(product.getSellerNo());
+		model.addAttribute("productList", productList);		
+		 
+		return "/product/productList";
+	}
+	
+	
+}

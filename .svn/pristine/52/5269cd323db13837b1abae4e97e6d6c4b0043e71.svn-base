@@ -1,0 +1,94 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tf" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품평 샘플 페이지 출력</title>
+</head>
+<body>
+	<%@ include file="/WEB-INF/views/include/commonIncludeCSS.jsp"%>
+	<%@ include file="/WEB-INF/views/include/commonIncludeJS.jsp"%>
+<%-- <c:if test="${error != null}">
+
+    <script type="text/javascript">
+    var v = "${error}";
+  	alert(v);
+	</script>
+
+</c:if> --%>
+<%--          <a href="${pageContext.request.contextPath}/">
+            [<spring:message code="go.main" />]
+        </a><br> --%>
+<a href="${pageContext.request.contextPath}/review/reviewForm?productNo=${productNo}">상품평 작성하기</a>
+<c:forEach var="r" items="${reviewProductNoList}">
+<form:form action="${pageContext.request.contextPath}/review/reviewUpdateForm" modelAttribute="review">
+	<table border="1px">
+	<tr><th>필드값</th><th>필드명</th><th>내용</th></tr>
+		<tr><td>REVIEW_NO     </td><td>상품평번호</td><td><form:hidden path="reviewNo" value="${r.reviewNo}" readonly="true"/>${r.reviewNo}</td></tr>
+		<tr><td>PRODUCT_NO    </td><td>상품번호</td><td><form:hidden path="productNo" value="${r.productNo}"/>${r.productNo}</td></tr>
+		<tr><td>PRODUCT_NAME  </td><td>상품이름</td><td><form:hidden path="productName" value="${r.productName}" />${r.productName}</td></tr>
+		<tr><td>PRODUCT_OPTION</td><td>상품옵션</td><td><form:hidden path="productOption" value="${r.productOption}"/>${r.productOption}</td></tr>
+		<tr><td>MEMBER_NO     </td><td>회원번호</td><td><form:hidden path="memberNo" value="${r.memberNo}"/>${r.memberNo}</td></tr>
+		<tr><td>MEMBER_NAME   </td><td>회원이름</td><td><form:hidden path="memberName" value="${r.memberName}"/>${r.memberName}</td></tr>
+		<tr><td>REVIEW_RATE   </td><td>별점</td><td><form:hidden path="reviewRate" value="${r.reviewRate}" />${r.reviewRate}</td></tr>
+		<tr><td>REVIEW_CONTENT</td><td>상품평내용</td><td><form:hidden path="reviewContent" value="${r.reviewContent}" />${r.reviewContent}</td></tr>
+		<tr><td>REVIEW_SUMMARY</td><td>상품평요약</td><td><form:hidden path="reviewSummary" value="${r.reviewSummary}" />${r.reviewSummary}</td></tr>
+		<tr><td>REVIEW_DATE   </td><td>평등록일</td><td><form:hidden path="reviewDate" value="${r.reviewDate}" />${r.reviewDate}</td></tr>
+		<tr>
+		<td></td>
+		<td></td>
+		<td>
+		<input type="submit" value="문의 수정">
+		<button type="button" onclick="deleteReview('${pageContext.request.contextPath}/review/reviewDelete?memberNo=${r.memberNo}&reviewNo=${r.reviewNo}&productNo=${r.productNo}')">상품평 삭제</button>
+		</td>
+		</tr>
+</table>
+</form:form>
+</c:forEach>
+
+<div>
+<ul class="revPagination">
+
+    <c:if test="${pagination.curRange ne 1 }">
+        <li class="page-item" href="#" onClick="fn_paging(1,${productNo})" >[처음]</li> 
+    </c:if>
+    <c:if test="${pagination.curPage ne 1}">
+        <li class="page-item" href="#" onClick="fn_paging('${pagination.prevPage }',${productNo})">[이전]</li> 
+    </c:if>
+    <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+        <c:choose>
+            <c:when test="${pageNum eq  pagination.curPage}">
+                <span style="font-weight: bold;"><li class="page-item" href="#" onClick="fn_paging('${pageNum }',${productNo})">${pageNum }</li></span> 
+            </c:when>
+            <c:otherwise>
+                <li class="page-item" href="#" onClick="fn_paging('${pageNum }',${productNo})">${pageNum }</li> 
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+        <li class="page-item" href="#" onClick="fn_paging('${pagination.nextPage }',${productNo})">[다음]</li> 
+    </c:if>
+    <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+        <li class="page-item" href="#" onClick="fn_paging('${pagination.pageCnt }',${productNo})">[끝]</li> 
+    </c:if>
+    </ul>
+</div>
+
+<div>
+    총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt } / 현재 보고있는 상품 번호 : ${productNo}
+</div>
+<script type="text/javascript">
+function deleteReview(url) {
+	//console.log(url)
+	if(confirm("상품평을 삭제하시겠습니까?")){		
+	location.href=url;
+	}
+}
+</script>
+</body>
+</html>

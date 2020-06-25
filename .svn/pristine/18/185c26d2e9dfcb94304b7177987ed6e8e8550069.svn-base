@@ -1,0 +1,14 @@
+package com.goupang.www.dto.member;
+
+import java.util.Date;
+
+public class Member {
+	int memberNo; /* 회원번호 */
+	String memberEmail; /*NOT NULL, 회원EMAIL */
+	String memberPw; /*NOT NULL, 회원PASSWORD */
+	String memberName; /*NOT NULL, 회원이름 */
+	String memberPhone; /*NOT NULL,회원PHONE */
+	String memberGrant; /* 회원권한 */
+	String memberAddr; /* 회원주소 */
+	Date memberLeaveDate; /* 회원탈퇴날자 */
+}

@@ -1,0 +1,42 @@
+package com.goupang.www.controller.order;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.goupang.www.dto.order.Order;
+import com.goupang.www.service.order.OrderListService;
+
+@Controller
+public class OrderListController {
+	
+	@Autowired
+	private OrderListService orderListService;
+
+	@RequestMapping("/order/testOrderList")
+	public String OrderList(Model model) throws Exception {
+		List<Order> orderList = orderListService.orderListAll();
+		Order order = new Order();
+		System.out.println("OrderListContoller");
+//		for (Cart c : cartList) {
+//			System.out.println(c);
+//		}
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("order",order);
+		//System.out.println("orderList : "+ orderList);
+		//System.out.println("order : "+ order);
+		return "/order/testOrderList";
+	}
+
+	@RequestMapping("/cart/testOrderList/{member_no}")
+	public String OrderListByMemberNo(@PathVariable("member_no") int member_no, Model model) throws Exception {
+		List<Order> orderList = orderListService.selectByMemberNo(member_no);
+		model.addAttribute("orderList", orderList);
+		return "order/testOrderList";
+
+	}
+
+
+}

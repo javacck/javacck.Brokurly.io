@@ -1,0 +1,30 @@
+package com.goupang.www.controller.inquiry;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.service.inquiry.InquiryListService;
+
+
+
+@Controller
+public class InquiryListController {
+	@Autowired
+	private InquiryListService inquiryListService;
+//	public void setInquiryListService(InquiryListService inquiryListService) {
+//		this.inquiryListService = inquiryListService;
+//	}
+
+	
+	@RequestMapping("/inquiry/inquiryList")
+	public String list(Model model)throws Exception {
+	    List<Inquiry> inquiryList = inquiryListService.selectInquiryList();
+	    model.addAttribute("inquiryList", inquiryList);
+		
+		return "/inquiry/inquiryList";
+	}
+}

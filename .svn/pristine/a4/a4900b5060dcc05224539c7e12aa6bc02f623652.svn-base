@@ -1,0 +1,31 @@
+package com.goupang.www.controller.product;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.service.product.ProductListService;
+
+
+
+@Controller
+public class productListController {
+	@Autowired
+	private ProductListService productListService;
+	
+	@RequestMapping("/product/productList")
+	public String list(Model model, @ModelAttribute("product") Product product)throws Exception {
+		//원래 다른곳에서 받아와야 할 번호
+		int sellerNo = 1;
+	    List<Product> productList = productListService.selectProductList(sellerNo);
+	    model.addAttribute("productList", productList);		
+//	    Inquiry inquiry = new Inquiry();
+//	    model.addAttribute("inquiry", inquiry);
+	    
+		return "/product/productList";
+	}
+}

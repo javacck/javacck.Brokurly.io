@@ -1,0 +1,76 @@
+package com.goupang.www.service.review;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.goupang.www.dao.review.ReviewDAO;
+import com.goupang.www.dto.product.Product;
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.dto.review.ReviewRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+@Transactional
+public class ReviewFormService {
+	@Autowired
+	private ReviewDAO reviewDAO;
+	//해야 할 기능 - 업데이트 할 때 memberNo, productNo, OrderProductsNo, orderStatus
+	//확인해서 권한 있는지 확인, 권한 있어야 쓸 수 있게. 없으면 insert 창 안뜨게.
+	public Review selectReviewRateByMemberNo(int memberNo) throws Exception{
+		return reviewDAO.selectReviewRateByMemberNo(memberNo);
+	}
+	public Product selectReviewRateByProductNo(int productNo) throws Exception {
+		return reviewDAO.selectReviewRateByProductNo(productNo);
+	}
+	public Review selectReviewRateByProductNoMemberNo(int memberNo, int productNo) throws Exception {
+		return reviewDAO.selectReviewRateByProductNoMemberNo(memberNo, productNo);
+	}
+	public int selectReviewCountByProductNo(int productNo) throws Exception {
+		return reviewDAO.selectReviewCountByProductNo(productNo);
+	}
+	public int selectReviewCountByOrderProductsNo(int orderProductsNo, int orderStatus) throws Exception{
+		return reviewDAO.selectReviewCountByOrderProductsNo(orderProductsNo, orderStatus);
+	}
+	public void updateProductAvgRate(int productNo, String productAvgRate) throws Exception{
+		reviewDAO.updateProductAvgRate(productNo, productAvgRate);
+	}
+	
+	public void insertReviewList(ReviewRequest reviewReq) throws Exception {
+		reviewDAO.insertReview(
+				reviewReq.getOrderProductsNo(),
+				reviewReq.getProductNo(),
+				reviewReq.getReviewRate(),
+				reviewReq.getReviewContent(),
+				reviewReq.getReviewSummary()
+				);
+	}
+	
+	public void insertReviewRateList(ReviewRequest reviewReq) throws Exception {
+		reviewDAO.insertReviewRate(
+				reviewReq.getOrderProductsNo(), 
+				reviewReq.getProductNo(),
+				reviewReq.getReviewRate()
+				);
+	}
+	
+	public void insertReviewRateSummaryList(ReviewRequest reviewReq) throws Exception {
+		reviewDAO.insertReviewRateSummary(
+				reviewReq.getOrderProductsNo(), 
+				reviewReq.getProductNo(), 
+				reviewReq.getReviewRate(), 
+				reviewReq.getReviewSummary()
+				);
+	}
+	
+	public void insertReviewRateContentList(ReviewRequest reviewReq) throws Exception {
+		reviewDAO.insertReviewRateContent(
+				reviewReq.getOrderProductsNo(), 
+				reviewReq.getProductNo(), 
+				reviewReq.getReviewRate(), 
+				reviewReq.getReviewContent()
+				);
+	}
+	
+	
+}

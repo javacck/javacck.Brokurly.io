@@ -1,0 +1,38 @@
+package com.goupang.www.controller.review;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.member.AuthInfo;
+import com.goupang.www.dto.review.Review;
+import com.goupang.www.service.review.ReviewUpdateService;
+
+@Controller
+public class reviewUpdateController {
+	@Autowired
+	private ReviewUpdateService reviewUpdateService;
+	//해야 할 기능 - 업데이트 할 때 memberNo, productNo, OrderProductsNo, orderStatus
+	//확인해서 권한 있는지 확인, 권한 있어야 쓸 수 있게. 없으면 insert 창 안뜨게.
+	@PostMapping("/review/reviewUpdateForm")
+	public String form(@ModelAttribute Review review,HttpServletRequest req) throws Exception{
+		System.out.println(review.getReviewNo());
+		AuthInfo auth = (AuthInfo) req.getSession().getAttribute("authInfo");
+		
+		if(auth == null || auth.getGrant() < 1 || !auth.checkId((long)review.getMemberNo())) {
+			return "redirect:/member/noGrant";	
+		}
+		return "/review/reviewUpdateForm";
+	}
+	
+	@PostMapping("/review/reviewUpdate")
+	public String submit(Model model, @ModelAttribute Review review) throws Exception {
+		reviewUpdateService.updateReview(review);
+		
+		return "redirect:/review/reviewList?curPage=1&productNo="+review.getProductNo();
+	}
+}

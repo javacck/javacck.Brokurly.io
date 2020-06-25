@@ -1,0 +1,43 @@
+package com.goupang.www.controller.inquiry;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.service.inquiry.InquiryListService;
+import com.goupang.www.service.inquiry.InquiryUpdateService;
+
+
+@Controller
+public class inquiryUpdateController {
+	@Autowired
+	private InquiryUpdateService inquiryUpdateService;
+
+	@Autowired
+	private InquiryListService inquiryListService;
+	
+	@PostMapping("/inquiry/inquiryUpdateForm")
+	public void form(@ModelAttribute Inquiry inquiry)throws Exception{
+		System.out.println(inquiry.getInquiryNo());
+//		InquiryUpdate inquiryUpdate = inquiryUpdateService.selectInquiry(inquiryNo);
+//		
+		//model.addAttribute("inquiry", inquiry);
+		//return "/inquiry/inquiryUpdateForm";
+	}
+	@PostMapping("/inquiry/inquiryUpdate")
+	public String submit(Model model,@ModelAttribute Inquiry inquiry)throws Exception {
+		inquiryUpdateService.updateInquiry(inquiry);
+		List<Inquiry> inquiryList = inquiryListService.selectInquiryList(inquiry.getProductNo());
+		model.addAttribute("inquiryList", inquiryList);		
+		 
+		return "/inquiry/inquiryList";
+	}
+	
+	
+}

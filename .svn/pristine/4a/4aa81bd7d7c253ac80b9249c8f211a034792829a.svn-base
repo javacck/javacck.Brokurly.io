@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>문의하기</title>
+</head>
+<body>
+    <h2>문의</h2>
+    <h2></h2>
+    <p>
+        <label>상품명:
+      ${inquiryRequest.productName}
+        </label>
+    </p>
+    <form:form action="${pageContext.request.contextPath}/inquiry/inquiryForm" modelAttribute="inquiryRequest">
+    <p>
+        <label>문의내용:<br>
+        <form:input path="inquiryContent"/>     
+        </label>
+        <form:hidden path="productNo"/>
+        <form:hidden path="productName"/>
+        <form:hidden path="memberNo"/>
+    </p>
+
+    <input type="submit" value="문의 등록">
+    </form:form>
+</body>
+</html>

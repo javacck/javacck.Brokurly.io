@@ -1,0 +1,45 @@
+package com.goupang.www.dao.product;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.dto.product.Product;
+
+public interface ProductDAO {
+
+    List<Product> selectProductList(@Param("productNo") int productNo) throws Exception;
+    
+    
+    void insertProduct(
+            
+            @Param("productName") String productName,
+            @Param("sellerNo") int sellerNo,
+            @Param("productBrand") String productBrand,
+            @Param("productPrice") int productPrice,
+            @Param("productStock") int productStock,
+            @Param("productOption") String productOption,
+            @Param("productContent") String productContent
+            
+            )throws Exception;
+    
+    List<Product> selectProductByProductNo(@Param("productNo")int productNo);
+    
+    void updateProduct(
+            
+            @Param("productName") String productName,
+            @Param("sellerNo") int sellerNo,
+            @Param("productBrand") String productBrand,
+            @Param("productPrice") int productPrice,
+            @Param("productStock") int productStock,
+            @Param("productOption") String productOption,
+            @Param("productContent") String productContent
+            
+            )throws Exception;
+
+    
+    void deleteProduct(@Param("productNo")int productNo)throws Exception;
+
+    
+}

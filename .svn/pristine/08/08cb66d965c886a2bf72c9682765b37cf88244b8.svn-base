@@ -1,0 +1,28 @@
+package com.goupang.www.service.product;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.goupang.www.dao.product.ProductDAO;
+import com.goupang.www.dto.product.Product;
+
+@Service
+@Transactional
+public class ProductListService {
+	
+	@Autowired
+	private ProductDAO productDAO;
+		
+	public List<Product> selectProductList(int productNo) throws Exception {
+		return productDAO.selectProductList(productNo);
+	}
+
+
+}
+
+
+	
+
+

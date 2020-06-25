@@ -1,0 +1,48 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+
+<body>
+	<!--================Top Header Area =================-->
+	<div class="header_top_area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="top_header_left">
+						<!-- 헤더 탑 왼쪽 빈공간 -->
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="top_header_middle">
+
+						<a href="${pageContext.request.contextPath}/" style="color: black;"><h1 style="margin-top: 30px;">BroKurly Market</h1></a>
+						
+						<div class="input-group" style="margin: 20px;">
+							<input type="text" class="form-control" placeholder="Search"
+								aria-label="Search"> <span class="input-group-btn">
+								<button class="btn btn-secondary" type="button">
+									<i class="icon-magnifier"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="top_right_header">
+						<ul class="top_right" >
+							<c:if test="${empty authInfo}">
+								<a href="${pageContext.request.contextPath}/member/step1" style="color: black;">회원가입 |</a>
+								<a href="${pageContext.request.contextPath}/member/login" style="color: black;">로그인</a>
+							</c:if>
+							<c:if test="${! empty authInfo}">
+								<a href="${pageContext.request.contextPath}/member/myPage" style="color: black;">마이페이지 |</a>
+								<a href="${pageContext.request.contextPath}/" style="color: black;">장바구니 |</a>
+								<a href="${pageContext.request.contextPath}/member/logout" style="color: black;">로그아웃</a>
+								<p style="color:"><b style="font-size: 1.1em;" style="color: black;">${authInfo.name}</b>님,환영합니다.</p>
+							</c:if>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Top Header Area =================-->

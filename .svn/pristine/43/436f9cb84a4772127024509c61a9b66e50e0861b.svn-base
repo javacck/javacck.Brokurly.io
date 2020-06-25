@@ -1,0 +1,39 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Goupang</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+	integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+	crossorigin="anonymous"></script>
+<!-- 검색창 샘플 css -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/include/banner.jsp"%>
+	<a href="${pageContext.request.contextPath}/inquiry/inquiryList">(임시)상품번호1의
+		문의목록</a>
+	<a href="${pageContext.request.contextPath}/product/productCategoryList?categoryNo=1">카테고리1 목록</a>
+
+
+
+
+
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+
+
+
+
+
+
+
+
+</body>
+</html>

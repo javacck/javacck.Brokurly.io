@@ -1,0 +1,18 @@
+package com.goupang.www.controller.manager;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+@Controller
+public class AdminHomeController {
+
+	@GetMapping("/admin")
+	public String home()throws Exception{
+		return "/manager/adminhome";
+	}
+
+	
+	
+}

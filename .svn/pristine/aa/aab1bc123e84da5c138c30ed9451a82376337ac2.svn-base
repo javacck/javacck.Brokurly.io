@@ -1,0 +1,46 @@
+package com.goupang.www.controller.inquiry;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.goupang.www.dto.inquiry.Inquiry;
+import com.goupang.www.dto.inquiry.InquiryRequest;
+import com.goupang.www.service.inquiry.InquiryFormService;
+
+
+@Controller
+public class InquiryFormController {
+	
+	@Autowired
+	private InquiryFormService inquiryFormService;
+//	@Autowired
+//	private InquiryListService inquiryListService;
+	@GetMapping("/inquiry/inquiryForm")
+	public String form(Model model){
+		InquiryRequest inquiryReq = new InquiryRequest();
+		/*원래는 다른 페이지에서 받아와야 되는 값들*/
+		inquiryReq.setProductNo(1);//상품번호
+		inquiryReq.setMemberNo(1);//맴버이름
+		inquiryReq.setProductName("상품번호1의 상품명");
+		//inquiryReq.setProductName("판매자 이름");
+		//상품의 
+		model.addAttribute("inquiryRequest",inquiryReq);
+		return "/inquiry/inquiryForm";
+	}
+	@PostMapping("/inquiry/inquiryForm")
+	public String submit(Model model,@ModelAttribute Inquiry inquiry,InquiryRequest inquiryReq)throws Exception {
+		//System.out.println("submit:"+inquiryReq.toString());
+		inquiryFormService.insertInquiry(inquiryReq);
+		
+//		 List<Inquiry> inquiryList = inquiryListService.selectInquiryList(inquiry.getProductNo());
+//		    model.addAttribute("inquiryList", inquiryList);
+		return "redirect:/inquiry/inquiryList";
+	}
+	
+	
+}
